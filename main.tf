@@ -10,11 +10,19 @@ resource "aws_vpc" "my_vpc" {
   }
 }
 
+resource "aws_internet_gateway" "gw" {
+ vpc_id = aws_vpc.my_vpc.id 
+}
+
 resource "aws_subnet" "my_subnet" {
   vpc_id            = aws_vpc.my_vpc.id
   cidr_block        = var.my_subnet
   availability_zone = var.availability_zone
-
+  
+  map_public_ip_on_launch = true
+  
+  depends_on = [aws_internet_gateway.gw]
+  
   tags = {
     Name = "tfc-example"
   }
@@ -28,7 +36,6 @@ resource "aws_network_interface" "foo" {
     Name = "primary_network_interface"
   }
 }
-
 
 data "aws_ami" "ubuntu" {
   most_recent = true
@@ -59,5 +66,12 @@ resource "aws_instance" "ubuntu" {
     Name                 = var.instance_name
     "Linux Distribution" = "Ubuntu"
   }
+}
+resource "aws_eip" "bar" {
+  vpc = true
+  
+  instance  = aws_instance.ubuntu.id
+  associate_with_private_ip = var.network_interface_ip
+  depends_on = [aws_internet_gateway.gw]
 }
 
