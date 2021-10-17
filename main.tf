@@ -3,16 +3,16 @@ provider "aws" {
 }
 
 resource "aws_vpc" "my_vpc" {
-  cidr_block = "172.20.0.0/16"
+  cidr_block = var.cidr_block
 
   tags = {
-    Name = "tf-example"
+    Name = var.vpc_tag
   }
 }
 
 resource "aws_subnet" "my_subnet" {
   vpc_id            = aws_vpc.my_vpc.id
-  cidr_block        = "172.20.10.0/24"
+  cidr_block        = var.my_subnet
   availability_zone = var.availability_zone
 
   tags = {
@@ -22,7 +22,7 @@ resource "aws_subnet" "my_subnet" {
 
 resource "aws_network_interface" "foo" {
   subnet_id   = aws_subnet.my_subnet.id
-  private_ips = ["172.20.10.100"]
+  private_ips = [var.network_interface_ip]
 
   tags = {
     Name = "primary_network_interface"
