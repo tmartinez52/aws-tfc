@@ -3,6 +3,26 @@ variable "region" {
   default     = "us-west-1"
 }
 
+variable "cidr_block" {
+  description = "CIDR Block"
+  default     = "10.0.0.0/16"
+}
+
+variable "my_subnet" {
+  description = "Subnet"
+  default     = "10.0.0.0/24"
+}
+
+variable "network_interface_ip" {
+  description = "Network interface"
+  default     = "10.0.0.10"
+}
+
+variable "vpc_tag" {
+  description = "Tag for VPC"  
+  default     = "vpc-tag"
+}
+
 variable "availability_zone" {
   description = "AWS AZ"
   default     = "us-west-1a"
