@@ -2,20 +2,20 @@ provider "aws" {
   region = var.region
 }
 
-resource "aws_cloud9_environment_ec2" "cloud9_tfc" {
-  name = var.instance_name
-  instance_type = var.instance_type
-  subnet_id = aws_subnet.my_subnet.id
-  depends_on = [aws_subnet.my_subnet]
-}
+#resource "aws_cloud9_environment_ec2" "cloud9_tfc" {
+#  name = var.instance_name
+#  instance_type = var.instance_type
+#  subnet_id = aws_subnet.my_subnet.id
+#  depends_on = [aws_subnet.my_subnet]
+#}
 
-data "aws_instance" "cloud9_instance" {
-  filter {
-    name = "tag:aws:cloud9:environment"
-    values = [
-      aws_cloud9_environment_ec2.cloud9_tfc.id]
-  }
-}
+#data "aws_instance" "cloud9_instance" {
+#  filter {
+#    name = "tag:aws:cloud9:environment"
+#    values = [
+#      aws_cloud9_environment_ec2.cloud9_tfc.id]
+#  }
+#}
 
 
 resource "aws_vpc" "my_vpc" {
@@ -24,6 +24,10 @@ resource "aws_vpc" "my_vpc" {
   tags = {
     Name = var.vpc_tag
   }
+}
+
+resource "aws_internet_gateway" "gw" {
+ vpc_id = aws_vpc.my_vpc.id 
 }
 
 resource "aws_subnet" "my_subnet" {
@@ -39,6 +43,20 @@ resource "aws_subnet" "my_subnet" {
   }
 }
 
-output "cloud9_url" {
-  value = "https://${var.region}.console.aws.amazon.com/cloud9/ide/${aws_cloud9_environment_ec2.cloud9_tfc.id}"
+resource "aws_route_table" "route_table" {
+  vpc_id = aws_vpc.my_vpc.id
+  route = [
+    {
+      cidr_block = "0.0.0.0/0"
+      gateway_id = aws_internet_gateway.gw 
+    }
+   ]
+  tags = {
+    Name = "example" 
+  }
+  
 }
+
+#output "cloud9_url" {
+#  value = "https://${var.region}.console.aws.amazon.com/cloud9/ide/${aws_cloud9_environment_ec2.cloud9_tfc.id}"
+#}
