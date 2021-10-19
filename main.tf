@@ -45,12 +45,10 @@ resource "aws_subnet" "my_subnet" {
 
 resource "aws_route_table" "route_table" {
   vpc_id = aws_vpc.my_vpc.id
-  route = [
-    {
+  route = {
       cidr_block = "0.0.0.0/0"
       gateway_id = aws_internet_gateway.gw 
     }
-   ]
   tags = {
     Name = "example" 
   }
