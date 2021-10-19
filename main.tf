@@ -5,7 +5,7 @@ provider "aws" {
 resource "aws_cloud9_environment_ec2" "cloud9_tfc" {
   name = var.instance_name
   instance_type = var.instance_type
-  depends_on = [aws_vpc.myvpc]
+  depends_on = [aws_vpc.my_vpc]
 }
 
 data "aws_instance" "cloud9_instance" {
