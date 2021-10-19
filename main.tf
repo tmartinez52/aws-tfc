@@ -5,7 +5,8 @@ provider "aws" {
 resource "aws_cloud9_environment_ec2" "cloud9_tfc" {
   name = var.instance_name
   instance_type = var.instance_type
-  depends_on = [aws_vpc.my_vpc]
+  subnet_id = aws_subnet.my_subnet.id
+  depends_on = [aws_subnet.my_subnet]
 }
 
 data "aws_instance" "cloud9_instance" {
