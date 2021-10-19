@@ -45,14 +45,17 @@ resource "aws_subnet" "my_subnet" {
 
 resource "aws_route_table" "route_table" {
   vpc_id = aws_vpc.my_vpc.id
-  route = {
-      cidr_block = "0.0.0.0/0"
-      gateway_id = aws_internet_gateway.gw 
-    }
+  route = []
   tags = {
     Name = "example" 
   }
   
+}
+
+resource "aws_route" "route" {
+  route_table_id = aws_route_table.route_table.id
+  destination_cidr_block  = "0.0.0.0/0"
+  depends_on  = [aws_route_table.route_table]
 }
 
 #output "cloud9_url" {
