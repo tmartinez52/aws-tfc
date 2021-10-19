@@ -3,6 +3,7 @@ provider "aws" {
 }
 
 resource "aws_cloud9_environment_ec2" "cloud9_tfc" {
+  name = var.instance_name
   instance_type = var.instance_type
 }
 
