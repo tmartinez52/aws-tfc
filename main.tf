@@ -52,11 +52,11 @@ resource "aws_route_table" "route_table" {
   
 }
 
-resource "aws_route" "route" {
-  route_table_id = aws_route_table.route_table.id
-  destination_cidr_block  = "0.0.0.0/0"
-  depends_on  = [aws_route_table.route_table]
-}
+#resource "aws_route" "route" {
+#  route_table_id = aws_route_table.route_table.id
+#  destination_cidr_block  = "0.0.0.0/0"
+#  depends_on  = [aws_route_table.route_table]
+#}
 
 #output "cloud9_url" {
 #  value = "https://${var.region}.console.aws.amazon.com/cloud9/ide/${aws_cloud9_environment_ec2.cloud9_tfc.id}"
