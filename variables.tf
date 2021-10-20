@@ -37,3 +37,12 @@ variable "instance_name" {
   description = "EC2 instance name"
   default     = "Provisioned by Terraform"
 }
+
+variable "environment_tag" {
+  description = "Tag"
+  default     = "DEV"
+}
+variable "public_key_path" {
+  description = "CIDR block range"
+  default     = "./"
+}
