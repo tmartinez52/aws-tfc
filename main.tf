@@ -1,12 +1,12 @@
 provider "aws" {
-    region = "us-east-1"
+    region = var.region
 }
 
 resource "aws_vpc" "main" {
     cidr_block = "10.0.0.0/16"
     
     tags = {
-        Name = "Production"
+        Name = var.tag
     }
 }
 
@@ -14,7 +14,7 @@ resource "aws_internet_gateway" "gw" {
     vpc_id = aws_vpc.main.id
 
     tags = {
-        Name = "Production"
+        Name = var.tag
     }
 }
 
@@ -27,7 +27,7 @@ resource "aws_route_table" "prod-route-table" {
     }
 
     tags = {
-        Name = "Prod"
+        Name = var.tag
     }
 }
 
@@ -37,7 +37,7 @@ resource "aws_subnet" "subnet-one" {
     availability_zone = "us-east-1a"
 
     tags = {
-        Name = "Prod"
+        Name = var.tag
     }
 }
 
@@ -116,6 +116,6 @@ resource "aws_instance" "web-server-instance" {
                 sudo bash -c "echo your very first web server  > /var/www/html/index.html"
                 EOF
     tags = {
-        Name = "web-server"
+        Name = var.tag
     }
 }
