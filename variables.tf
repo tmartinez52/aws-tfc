@@ -33,6 +33,10 @@ variable "instance_type" {
   default     = "t2.micro"
 }
 
+variable "tag" {
+   descrption = "Tags for the build" 
+   default = "Dev"
+}
 variable "instance_name" {
   description = "EC2 instance name"
   default     = "Provisioned by Terraform"
