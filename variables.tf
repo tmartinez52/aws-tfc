@@ -34,7 +34,7 @@ variable "instance_type" {
 }
 
 variable "tag" {
-   descrption = "Tags for the build" 
+   description  = "Tags for the build" 
    default = "Dev"
 }
 variable "instance_name" {
